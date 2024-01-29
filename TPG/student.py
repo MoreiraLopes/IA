@@ -11,7 +11,7 @@ import websockets
 enemy_positions = []   
 rock_positions = []
 prev_move = " "                         #variable that stores the previous move (w,a,s,d)
-double_jump = False                     #boolean variable that is activated whenever digdug is 1 block above the enemie
+double_jump = False                     #boolean variable that is activated whenever digdug is 1 block above the enemy
 double_jump_key = ""                    #variable that stores the direction to move when double jumping/double movement
 hold = False                            #boolean variable that is activated when there are no enemies in a distance <= 2 except a fygar 2 blocks under and digdug is correctly oriented to it
 hold_next_key = " "                     #variable that stores the next direction that digdug will move after beeing on hold waiting for an oppurtunity to attack the fygar
@@ -323,7 +323,7 @@ def next_move(state,map_data):  #main function (every verification is done here)
                             hold = False
                             update_map_data(map_data, player_x, player_y, key)
                             return key
-                    else:       #hold is only performed if enemie is above or under digdug in the same x position
+                    else:       #hold is only performed if enemy is above or under digdug in the same x position
                         print("rip")
                     
             if distance_rock == 1:       #if there is a rock in a distance == 1                         
@@ -400,7 +400,7 @@ def next_move(state,map_data):  #main function (every verification is done here)
                     
                 else:                                       #not correctly oriented
                     if distance_enemie == 2:                
-                        key = convert_direction_to_key_avoid_Pooka(player_x, player_y, closest_enemy[0], closest_enemy[1], map_data, enemies)       #call function to decide the next movement to perform when there is ana enemie nearby (defensive movement)
+                        key = convert_direction_to_key_avoid_Pooka(player_x, player_y, closest_enemy[0], closest_enemy[1], map_data, enemies)       #call function to decide the next movement to perform when there is ana enemy nearby (defensive movement)
                         if key == " ":              #if the best movement is to stand still
                             update_map_data(map_data, player_x, player_y, key)
                             return key
@@ -603,7 +603,7 @@ def double_jump_valid(dbj,player_x, player_y, enemy_x, enemy_y, map_data, enemie
 
 def is_correctly_oriented(prev_move, enemy_x, enemy_y, player_x, player_y):     
     # Check if Dig Dug is correctly oriented towards the enemy based on the previous move
-    if prev_move == "d" and player_x - enemy_x < 0 and player_y - enemy_y == 0:     #based on the previous move verifies if their orientation is the correct (is oriented towards the closest enemie)
+    if prev_move == "d" and player_x - enemy_x < 0 and player_y - enemy_y == 0:     #based on the previous move verifies if their orientation is the correct (is oriented towards the closest enemy)
         return True
     elif prev_move == "a" and player_x - enemy_x > 0 and player_y - enemy_y == 0:
         return True
@@ -675,33 +675,33 @@ def will_die(new_x, new_y, enemy_x, enemy_y, map_data, enemies):
 
 
 def convert_direction_to_key(player_x, player_y, enemy_x, enemy_y, map_data):     
-    #Based on Enemie and Dig Dug position decide the next movement
+    #Based on Enemy and Dig Dug position decide the next movement
 
-    dx = enemy_x - player_x     #verify if enemie is left or right to the Dig Dug
-    dy = enemy_y - player_y     #verify if enemie is above or under Dig Dug
+    dx = enemy_x - player_x     #verify if enemy is left or right to the Dig Dug
+    dy = enemy_y - player_y     #verify if enemy is above or under Dig Dug
 
-    if dx > 0:      #enemie at the right of the Dig Dug
+    if dx > 0:      #enemy at the right of the Dig Dug
         if is_valid_move(player_x + 1, player_y, map_data):     #move is for outside the map boundaries
             return "d"  # Move right
         elif is_valid_move(player_x, player_y - 1, map_data):   
             return "w"
         else:
             return "s"
-    elif dx < 0:    #enemie at the left of the Dig Dug
+    elif dx < 0:    #enemy at the left of the Dig Dug
         if is_valid_move(player_x - 1, player_y, map_data):
             return "a"  # Move left
         elif is_valid_move(player_x, player_y - 1, map_data):
             return "w"
         else:
             return "s"
-    elif dy > 0:    #enemie under Dig Dug
+    elif dy > 0:    #enemy under Dig Dug
         if is_valid_move(player_x, player_y + 1, map_data):
             return "s"  # Move down
         elif is_valid_move(player_x - 1, player_y, map_data):
             return "a"
         else:
             return "d"  
-    elif dy < 0:    #enemie above Dig Dug
+    elif dy < 0:    #enemy above Dig Dug
         if is_valid_move(player_x, player_y - 1, map_data):
             return "w"  # Move up
         elif is_valid_move(player_x - 1, player_y, map_data):
